@@ -1,0 +1,31 @@
+{
+	"variables": [],
+	"info": {
+		"name": "api-gateway",
+		"_postman_id": "5db046df-6ef1-80e3-a1ce-c7a0b0ccfc68",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registrar Pedido",
+			"request": {
+				"url": "localhost:8080/api/pedido",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"cliente\": \"César\",\n\t\"produto\": {\n\t\t\"descricao\": \"Caneca Personalizada\",\n\t\t\"quantidade\": 2\n\t},\n\t\"pagamento\": {\n\t\t\"dados\": \"Master Card\"\n\t},\n\t\"entrega\": \"Laurentina de Sampaio Sar, 310, Limeira-SP\"\n\t\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
