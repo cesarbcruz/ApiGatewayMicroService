@@ -13,10 +13,10 @@ public class CatalogoService {
 
         return new Catalogo().setProdutos(
                 Arrays.asList(
-                        new Produto().setDescricao("Caneca Personalizada"),
-                        new Produto().setDescricao("Suporte de Celular"),
-                        new Produto().setDescricao("Porta retrato"),
-                        new Produto().setDescricao("Chaveiro")
+                        new Produto().setDescricao("Caneca Personalizada").setValor(15.0),
+                        new Produto().setDescricao("Suporte de Celular").setValor(20.0),
+                        new Produto().setDescricao("Porta retrato").setValor(10.0),
+                        new Produto().setDescricao("Chaveiro").setValor(5.0)
                 )
         );
     }
