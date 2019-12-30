@@ -26,6 +26,26 @@
 				"description": ""
 			},
 			"response": []
+		},
+		{
+			"name": "Obter Catalogo",
+			"request": {
+				"url": "localhost:8080/api/catalogo",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"cliente\": \"César\",\n\t\"produto\": {\n\t\t\"descricao\": \"Caneca Personalizada\",\n\t\t\"quantidade\": 2\n\t},\n\t\"pagamento\": {\n\t\t\"dados\": \"Master Card\"\n\t},\n\t\"entrega\": \"Laurentina de Sampaio Sar, 310, Limeira-SP\"\n\t\n}"
+				},
+				"description": ""
+			},
+			"response": []
 		}
 	]
 }
