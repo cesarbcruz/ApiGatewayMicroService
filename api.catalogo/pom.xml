@@ -8,11 +8,11 @@
 		<version>2.2.2.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.cesar.api.producao</groupId>
-	<artifactId>api.producao</artifactId>
+	<groupId>com.cesar.api.catalogo</groupId>
+	<artifactId>api.catalogo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>api.producao</name>
-	<description>Demo API Produção</description>
+	<name>api.catalogo</name>
+	<description>Demo project for Spring Boot</description>
 
 	<properties>
 		<java.version>1.8</java.version>
