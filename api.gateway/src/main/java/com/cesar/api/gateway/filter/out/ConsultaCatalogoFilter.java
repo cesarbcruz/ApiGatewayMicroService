@@ -21,7 +21,6 @@ import java.time.format.DateTimeFormatter;
 public class ConsultaCatalogoFilter extends ZuulFilter {
 
     private Logger logger = LoggerFactory.getLogger(ConsultaCatalogoFilter.class);
-    private final String uri = "/api/catalogo";
 
     @Override
     public Object run() {
@@ -41,9 +40,9 @@ public class ConsultaCatalogoFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
-        String path = RequestContext.getCurrentContext().getRequest().getRequestURI();
+        String uri = RequestContext.getCurrentContext().getRequest().getRequestURI();
         String method = RequestContext.getCurrentContext().getRequest().getMethod();
-        return uri.equals(path) && "GET".equals(method);
+        return "/api/catalogo".equals(uri) && "GET".equals(method);
     }
 
     @Override
