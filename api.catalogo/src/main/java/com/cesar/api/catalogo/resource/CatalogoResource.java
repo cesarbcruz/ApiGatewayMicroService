@@ -11,11 +11,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 
-@CrossOrigin(origins = "*")
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "/api/catalogo")
 public class CatalogoResource {
 
@@ -80,5 +82,4 @@ public class CatalogoResource {
                 .body(new InputStreamResource(new FileInputStream(file)));
 
     }
-
 }
