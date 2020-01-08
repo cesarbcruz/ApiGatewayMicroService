@@ -7,11 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
@@ -26,7 +26,7 @@ public class CatalogoResource {
     @Autowired
     CatalogoService catalogoService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<Catalogo> obter() {
         logger.info("Obtendo Catalogo:");
         Catalogo catalogo = catalogoService.obter();
@@ -34,22 +34,52 @@ public class CatalogoResource {
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> download(HttpServletResponse response) throws Exception {
-        logger.info("Download Catalogo:");
+    public ResponseEntity<InputStreamResource> download() throws Exception {
+        logger.info("Download Catalogo");
 
-        String file = "catalogo.txt";
+        String fileName = "catalogo_produtos.txt";
         String dir = "/tmp/";
 
-        PrintWriter writer = new PrintWriter(dir + file, "UTF-8");
+        PrintWriter writer = new PrintWriter(dir + fileName, "UTF-8");
         writer.println("Catalogo de Produtos");
         for (Produto produto: catalogoService.obter().getProdutos()) {
             writer.println(produto.getDescricao()+" = "+produto.getValor());
         }
         writer.close();
 
-        response.setContentType("text/plain");
-        response.setHeader("Content-Disposition", "attachment; filename="+file);
-        return ResponseEntity.ok(new InputStreamResource(new FileInputStream(dir+file)));
+        File file = new File(dir+fileName);
+        final HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+fileName);
+        headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new InputStreamResource(new FileInputStream(file)));
+
+    }
+
+    @RequestMapping(value = "/download/produto", method = RequestMethod.POST)
+    public ResponseEntity<InputStreamResource> download(@RequestBody Produto produto) throws Exception {
+        logger.info("Download Catalogo Produto: {}", produto.getDescricao());
+
+        String fileName = "catalogo_produto_"+produto.getDescricao()+".txt";
+        String dir = "/tmp/";
+
+        PrintWriter writer = new PrintWriter(dir + fileName, "UTF-8");
+        writer.println("Catalogo do Produto:");
+        writer.println(produto.getDescricao()+" = "+produto.getValor());
+        writer.close();
+
+        File file = new File(dir+fileName);
+        final HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+fileName);
+        headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new InputStreamResource(new FileInputStream(file)));
 
     }
 
