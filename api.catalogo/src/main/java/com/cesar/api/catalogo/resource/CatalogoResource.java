@@ -34,20 +34,9 @@ public class CatalogoResource {
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public ResponseEntity<InputStreamResource> download() throws Exception {
         logger.info("Download Catalogo");
-
-        String fileName = "catalogo_produtos.txt";
-        String dir = "/tmp/";
-
-        PrintWriter writer = new PrintWriter(dir + fileName, "UTF-8");
-        writer.println("Catalogo de Produtos");
-        for (Produto produto: catalogoService.obter().getProdutos()) {
-            writer.println(produto.getDescricao()+" = "+produto.getValor());
-        }
-        writer.close();
-
-        File file = new File(dir+fileName);
+        File file = catalogoService.criarArquivoCatalogo();
         final HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+fileName);
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+file.getName());
         headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
         return ResponseEntity.ok()
                 .headers(headers)
@@ -60,18 +49,9 @@ public class CatalogoResource {
     @RequestMapping(value = "/download/produto", method = RequestMethod.POST)
     public ResponseEntity<InputStreamResource> download(@RequestBody Produto produto) throws Exception {
         logger.info("Download Catalogo Produto: {}", produto.getDescricao());
-
-        String fileName = "catalogo_produto_"+produto.getDescricao()+".txt";
-        String dir = "/tmp/";
-
-        PrintWriter writer = new PrintWriter(dir + fileName, "UTF-8");
-        writer.println("Catalogo do Produto:");
-        writer.println(produto.getDescricao()+" = "+produto.getValor());
-        writer.close();
-
-        File file = new File(dir+fileName);
+        File file = catalogoService.criarArquivoCatalogoProduto(produto);
         final HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+fileName);
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+file.getName());
         headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
         return ResponseEntity.ok()
                 .headers(headers)
